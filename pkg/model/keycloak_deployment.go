@@ -217,6 +217,10 @@ func KeycloakDeployment(cr *v1alpha1.Keycloak, dbSecret *v1.Secret) *v13.Statefu
 									Protocol:      "TCP",
 								},
 								{
+									ContainerPort: 8080,
+									Protocol:      "TCP",
+								},
+								{
 									ContainerPort: 9990,
 									Protocol:      "TCP",
 								},
@@ -269,6 +273,10 @@ func KeycloakDeploymentReconciled(cr *v1alpha1.Keycloak, currentState *v13.State
 			Ports: []v1.ContainerPort{
 				{
 					ContainerPort: KeycloakServicePort,
+					Protocol:      "TCP",
+				},
+				{
+					ContainerPort: 8080,
 					Protocol:      "TCP",
 				},
 				{

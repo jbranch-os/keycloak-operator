@@ -33,6 +33,12 @@ func KeycloakService(cr *v1alpha1.Keycloak) *v1.Service {
 					Name:       ApplicationName,
 					Protocol:   "TCP",
 				},
+				{
+					Port:       8080,
+					TargetPort: intstr.FromInt(8080),
+					Name:       ApplicationName + "-plain",
+					Protocol:   "TCP",
+				},
 			},
 		},
 	}
@@ -52,6 +58,12 @@ func KeycloakServiceReconciled(cr *v1alpha1.Keycloak, currentState *v1.Service) 
 			Port:       KeycloakServicePort,
 			TargetPort: intstr.FromInt(KeycloakServicePort),
 			Name:       ApplicationName,
+			Protocol:   "TCP",
+		},
+		{
+			Port:       8080,
+			TargetPort: intstr.FromInt(8080),
+			Name:       ApplicationName + "-plain",
 			Protocol:   "TCP",
 		},
 	}
