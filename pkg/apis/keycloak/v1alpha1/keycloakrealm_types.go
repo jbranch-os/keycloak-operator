@@ -91,6 +91,10 @@ type KeycloakAPIRealm struct {
 	// +optional
 	UserFederationMappers []KeycloakAPIUserFederationMapper `json:"userFederationMappers,omitempty"`
 
+	// Components
+	// +optional
+	Components map[string]ComponentsArray `json:"components,omitempty"`
+
 	// User registration
 	// +optional
 	RegistrationAllowed *bool `json:"registrationAllowed,omitempty"`
@@ -274,6 +278,27 @@ type RoleRepresentationComposites struct {
 	// Realm roles
 	// +optional
 	Realm []string `json:"realm,omitempty"`
+}
+
+type ComponentsArray []KeycloakAPIComponent
+
+// https://www.keycloak.org/docs-api/10.0/rest-api/index.html#_componentrepresentation
+type KeycloakAPIComponent struct {
+	// The ID of this provider
+	// +optional
+	ID string `json:"id,omitempty"`
+
+	// Component config.
+	// +optional
+	Config map[string][]string `json:"config,omitempty"`
+
+	// The name of this provider instance.
+	// +optional
+	Name string `json:"name,omitempty"`
+
+	// The name of the user provider
+	// +optional
+	ProviderId string `json:"providerId,omitempty"`
 }
 
 // https://www.keycloak.org/docs-api/10.0/rest-api/index.html#_userfederationproviderrepresentation
