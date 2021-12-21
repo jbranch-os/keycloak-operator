@@ -28,8 +28,8 @@ stages:
     displayName: Main Stage
     jobs:
 
-      - job: Job1
-        displayName: Job 1
+      - job: JobBuild
+        displayName: Build Image
         pool:
           vmimage: 'ubuntu-20.04'
         steps:
