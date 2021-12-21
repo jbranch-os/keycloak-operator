@@ -11,6 +11,8 @@ variables:
   - group: 'KeyCloak'
   - name: DOCKER_BUILDKIT #This is needed for multistage Dockerfile, in order that we have 1 final image created. Also needed in case the Dockerfile is more 'conditional'
     value: 1
+  - name: AWSCredentials
+    value: 'AWS big-crunch'
   - name: ServiceConnection
     value: 'SDLC EdenStage'
 
@@ -55,3 +57,25 @@ stages:
             ####################
             # Create Docker Save Image
             ###################
+          - task: ECRPushImage@1
+            displayName: '📤 Publish Image to ECR'
+            inputs:
+              awsCredentials: '${{variables.AwsCredentials}}'
+              regionName: 'eu-west-1'
+              imageSource: 'imagename'
+              sourceImageName: '${{parameters.SourceImageName}}'
+              sourceImageTag: '${{parameters.SourceImageTag}}'
+              repositoryName: '${{parameters.SourceImageName}}'
+              pushTag: '${{parameters.SourceImageTag}}'
+              autoCreateRepository: true
+            ####################
+            # Push image to ACR
+            ###################
+          - task: Docker@2
+            displayName: 📤 Push Image to ACR
+            inputs:
+              command: push
+              containerRegistry: ${{variables.ServiceConnection}}
+              repository: '${{parameters.SourceImageName}}'
+              tags: |
+                ${{ parameters.SourceImageTag }}
