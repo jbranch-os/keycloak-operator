@@ -33,49 +33,57 @@ stages:
         pool:
           vmimage: 'ubuntu-20.04'
         steps:
- ###################
-          # Build Docker Image
-          ###################
-          - task: Docker@2
-            displayName: '📦 Build Docker Image'
+          - task: NuGetToolInstaller@1
+            displayName: 'Install NuGet'
             inputs:
-              command: 'build'
-              containerRegistry: ${{variables.ServiceConnection}}
-              repository: ${{ parameters.SourceImageName }}
-              tags: |
-                ${{ parameters.SourceImageTag }}
-              arguments: >
-                -t ${{ parameters.SourceImageName }}:${{parameters.SourceImageTag}}
-            ####################
-            # Check generated docker images
-            ###################
-          - task: CmdLine@2
-            displayName: '👀 Docker Images view'
+              versionSpec: 5.2.x
+          - task: NuGetAuthenticate@0
+            displayName: 'Authenticate in NuGet Feed'
             inputs:
-              script: |
-                docker images -a
-            ####################
-            # Create Docker Save Image
-            ###################
-          - task: ECRPushImage@1
-            displayName: '📤 Publish Image to ECR'
-            inputs:
-              awsCredentials: '${{variables.AwsCredentials}}'
-              regionName: 'eu-west-1'
-              imageSource: 'imagename'
-              sourceImageName: '${{parameters.SourceImageName}}'
-              sourceImageTag: '${{parameters.SourceImageTag}}'
-              repositoryName: '${{parameters.SourceImageName}}'
-              pushTag: '${{parameters.SourceImageTag}}'
-              autoCreateRepository: true
-            ####################
-            # Push image to ACR
-            ###################
-          - task: Docker@2
-            displayName: 📤 Push Image to ACR
-            inputs:
-              command: push
-              containerRegistry: ${{variables.ServiceConnection}}
-              repository: '${{parameters.SourceImageName}}'
-              tags: |
-                ${{ parameters.SourceImageTag }}
+              forceReinstallCredentialProvider: true
+#          ###################
+#          # Build Docker Image
+#          ###################
+#          - task: Docker@2
+#            displayName: '📦 Build Docker Image'
+#            inputs:
+#              command: 'build'
+#              containerRegistry: ${{variables.ServiceConnection}}
+#              repository: ${{ parameters.SourceImageName }}
+#              tags: |
+#                ${{ parameters.SourceImageTag }}
+#              arguments: >
+#                -t ${{ parameters.SourceImageName }}:${{parameters.SourceImageTag}}
+#            ####################
+#            # Check generated docker images
+#            ###################
+#          - task: CmdLine@2
+#            displayName: '👀 Docker Images view'
+#            inputs:
+#              script: |
+#                docker images -a
+#            ####################
+#            # Create Docker Save Image
+#            ###################
+#          - task: ECRPushImage@1
+#            displayName: '📤 Publish Image to ECR'
+#            inputs:
+#              awsCredentials: '${{variables.AwsCredentials}}'
+#              regionName: 'eu-west-1'
+#              imageSource: 'imagename'
+#              sourceImageName: '${{parameters.SourceImageName}}'
+#              sourceImageTag: '${{parameters.SourceImageTag}}'
+#              repositoryName: '${{parameters.SourceImageName}}'
+#              pushTag: '${{parameters.SourceImageTag}}'
+#              autoCreateRepository: true
+#            ####################
+#            # Push image to ACR
+#            ###################
+#          - task: Docker@2
+#            displayName: 📤 Push Image to ACR
+#            inputs:
+#              command: push
+#              containerRegistry: ${{variables.ServiceConnection}}
+#              repository: '${{parameters.SourceImageName}}'
+#              tags: |
+#                ${{ parameters.SourceImageTag }}
