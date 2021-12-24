@@ -15,6 +15,10 @@ variables:
     value: 'AWS big-crunch'
   - name: ServiceConnection
     value: 'SDLC EdenStage'
+  - name: agent
+    value: 'cdagent'
+  - name: emailAgent
+    value: 'rd.productivity.team@outsystems.com'
 
 trigger: none
 
@@ -33,6 +37,12 @@ stages:
         pool:
           vmimage: 'ubuntu-20.04'
         steps:
+          - script: docker login -u ${Agent} -p ${Pass} docker.pkg.github.com
+            displayName: Logging into GitHub Package Registry
+            env:
+              Agent: ${{variables.agent}}
+              AgentEmail: ${{variables.emailAgent}}
+              Pass: $(cdagent)
           - task: NuGetToolInstaller@1
             displayName: 'Install NuGet'
             inputs:
