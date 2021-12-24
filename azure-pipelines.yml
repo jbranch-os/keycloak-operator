@@ -43,27 +43,21 @@ stages:
               Agent: ${{variables.agent}}
               AgentEmail: ${{variables.emailAgent}}
               Pass: $(cdagent)
-          - task: NuGetToolInstaller@1
-            displayName: 'Install NuGet'
+          ###################
+          # Build Docker Image
+          ###################
+          - task: Docker@2
+            displayName: '📦 Build Docker Image'
             inputs:
-              versionSpec: 5.2.x
-          - task: NuGetAuthenticate@0
-            displayName: 'Authenticate in NuGet Feed'
-            inputs:
-              forceReinstallCredentialProvider: true
-#          ###################
-#          # Build Docker Image
-#          ###################
-#          - task: Docker@2
-#            displayName: '📦 Build Docker Image'
-#            inputs:
-#              command: 'build'
-#              containerRegistry: ${{variables.ServiceConnection}}
-#              repository: ${{ parameters.SourceImageName }}
-#              tags: |
-#                ${{ parameters.SourceImageTag }}
-#              arguments: >
-#                -t ${{ parameters.SourceImageName }}:${{parameters.SourceImageTag}}
+              command: 'build'
+              containerRegistry: ${{variables.ServiceConnection}}
+              repository: ${{ parameters.SourceImageName }}
+              tags: |
+                ${{ parameters.SourceImageTag }}
+              arguments: >
+                -t ${{ parameters.SourceImageName }}:${{parameters.SourceImageTag}}
+          - script: docker push docker.pkg.github.com/$(Build.Repository.ID)/${{ parameters.SourceImageName }}:${{parameters.SourceImageTag}}
+            displayName: Pushing Docker image to GitHub Package Repository
 #            ####################
 #            # Check generated docker images
 #            ###################
