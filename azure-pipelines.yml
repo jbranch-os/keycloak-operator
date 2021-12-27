@@ -71,7 +71,7 @@ stages:
             ####################
             # Push image to Github Package Registry
             ###################
-          - script: docker push docker.pkg.github.com/outsystems/outsystems.identity.keycloak/${{parameters.SourceImageName}}:${{parameters.SourceImageTag}}
+          - script: docker push ${{variables.ImagePref}}/${{parameters.SourceImageName}}:${{parameters.SourceImageTag}}
             displayName: 📤 Push Image to Github Package Registry
 #            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
             ####################
