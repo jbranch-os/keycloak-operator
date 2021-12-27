@@ -73,29 +73,29 @@ stages:
             ###################
           - script: docker push ${{variables.ImagePref}}/${{parameters.SourceImageName}}:${{parameters.SourceImageTag}}
             displayName: 📤 Push Image to Github Package Registry
-#            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-            ####################
-            # Push image to ECR
-            ###################
-          - task: ECRPushImage@1
-            displayName: '📤 Push Image to ECR'
-            inputs:
-              awsCredentials: '${{variables.AwsCredentials}}'
-              regionName: 'eu-west-1'
-              imageSource: 'imagename'
-              sourceImageName: '${{variables.ImagePref}}/${{parameters.SourceImageName}}'
-              sourceImageTag: '${{parameters.SourceImageTag}}'
-              repositoryName: '${{variables.ImagePref}}/${{parameters.SourceImageName}}'
-              pushTag: '${{parameters.SourceImageTag}}'
-              autoCreateRepository: true
-            ####################
-            # Push image to ACR
-            ###################
-          - task: Docker@2
-            displayName: 📤 Push Image to ACR
-            inputs:
-              command: push
-              containerRegistry: ${{variables.ServiceConnection}}
-              repository: '${{parameters.SourceImageName}}'
-              tags: |
-                ${{ parameters.SourceImageTag }}
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+#            ####################
+#            # Push image to ECR
+#            ###################
+#          - task: ECRPushImage@1
+#            displayName: '📤 Push Image to ECR'
+#            inputs:
+#              awsCredentials: '${{variables.AwsCredentials}}'
+#              regionName: 'eu-west-1'
+#              imageSource: 'imagename'
+#              sourceImageName: '${{variables.ImagePref}}/${{parameters.SourceImageName}}'
+#              sourceImageTag: '${{parameters.SourceImageTag}}'
+#              repositoryName: '${{variables.ImagePref}}/${{parameters.SourceImageName}}'
+#              pushTag: '${{parameters.SourceImageTag}}'
+#              autoCreateRepository: true
+#            ####################
+#            # Push image to ACR
+#            ###################
+#          - task: Docker@2
+#            displayName: 📤 Push Image to ACR
+#            inputs:
+#              command: push
+#              containerRegistry: ${{variables.ServiceConnection}}
+#              repository: '${{parameters.SourceImageName}}'
+#              tags: |
+#                ${{ parameters.SourceImageTag }}
