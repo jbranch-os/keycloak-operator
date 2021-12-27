@@ -60,9 +60,6 @@ stages:
                 ${{ parameters.SourceImageTag }}
               arguments: >
                 -t ${{variables.ImagePref}}/${{ parameters.SourceImageName }}:${{parameters.SourceImageTag}}
-
-          - script: docker push ${{ parameters.SourceImageName }}:${{parameters.SourceImageTag}}
-            displayName: Pushing Docker image to GitHub Package Repository
             ####################
             # Check generated docker images
             ###################
