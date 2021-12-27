@@ -20,7 +20,7 @@ variables:
   - name: emailAgent
     value: 'rd.productivity.team@outsystems.com'
   - name: ImagePref
-    value: 'docker.pkg.github.com/outsystems/outsystems.identity.keycloak'
+    value: 'docker.pkg.github.com/outsystems/outsystems.identity.keycloakoperator'
 
 trigger: none
 
