@@ -86,9 +86,9 @@ stages:
               awsCredentials: '${{variables.AwsCredentials}}'
               regionName: 'eu-west-1'
               imageSource: 'imagename'
-              sourceImageName: '${{variables.ImagePref}}/${{parameters.SourceImageName}}'
+              sourceImageName: '${{parameters.SourceImageName}}'
               sourceImageTag: '${{parameters.SourceImageTag}}'
-              repositoryName: '${{variables.ImagePref}}/${{parameters.SourceImageName}}'
+              repositoryName: '${{parameters.SourceImageName}}'
               pushTag: '${{parameters.SourceImageTag}}'
               autoCreateRepository: true
 #            ####################
