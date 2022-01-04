@@ -15,12 +15,12 @@ variables:
     value: 'AWS big-crunch'
   - name: ServiceConnection
     value: 'SDLC EdenStage'
-  - name: agent
-    value: 'cdagent'
-  - name: emailAgent
-    value: 'rd.productivity.team@outsystems.com'
-  - name: ImagePref
-    value: 'docker.pkg.github.com/outsystems/outsystems.identity.keycloakoperator'
+#  - name: agent
+#    value: 'cdagent'
+#  - name: emailAgent
+#    value: 'rd.productivity.team@outsystems.com'
+#  - name: ImagePref
+#    value: 'docker.pkg.github.com/outsystems/outsystems.identity.keycloakoperator'
 
 ######################
 # Only manual trigger
@@ -45,11 +45,11 @@ stages:
           ###################
           # Docker Login
           ###################
-          - script: docker login -u ${Agent} -p ${pass} docker.pkg.github.com
-            displayName: '🐳 Docker login' 
-            env:
-                Agent: ${{variables.agent}}
-                pass: $(GitHub_PAT)
+#          - script: docker login -u ${Agent} -p ${pass} docker.pkg.github.com
+#            displayName: '🐳 Docker login' 
+#            env:
+#                Agent: ${{variables.agent}}
+#                pass: $(GitHub_PAT)
           ###################
           # Build Docker Image
           ###################
@@ -57,7 +57,7 @@ stages:
             displayName: '📦 Build Docker Image'
             inputs:
               command: 'build'
-              containerRegistry: ${{variables.ServiceConnection}}
+#              containerRegistry: ${{variables.ServiceConnection}}
               repository: ${{ parameters.SourceImageName }}
               tags: |
                 ${{ parameters.SourceImageTag }}
