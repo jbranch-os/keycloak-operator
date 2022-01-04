@@ -61,8 +61,8 @@ stages:
               repository: ${{ parameters.SourceImageName }}
               tags: |
                 ${{ parameters.SourceImageTag }}
-#              arguments: >
-#                -t ${{variables.ImagePref}}/${{ parameters.SourceImageName }}:${{ parameters.SourceImageTag }}
+              arguments: >
+                -t ${{ parameters.SourceImageName }}:${{ parameters.SourceImageTag }}
             ####################
             # Check generated docker images
             ###################
